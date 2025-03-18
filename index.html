@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="assets/favicon/favicon.svg">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ff4e50">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="msapplication-TileColor" content="#ff4e50">
+    <meta name="msapplication-config" content="assets/favicon/browserconfig.xml">
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <title>Fabi's Liebesschatz</title>
+</head>
+<body>
+    <div class="hearts-background"></div>
+    <div class="container">
+        <div id="app">
+            <h1>Fabi's Liebesschatz</h1>
+            <div id="chest-container">
+                <div id="chest">
+                    <object id="chest-closed" type="image/svg+xml" data="assets/chest-closed.svg"></object>
+                    <object id="chest-open" class="hidden" type="image/svg+xml" data="assets/chest-open.svg"></object>
+                </div>
+                <div id="message-display" class="hidden">
+                    <!-- Message content will be added dynamically -->
+                </div>
+            </div>
+            <button id="chest-button">Schatz öffnen</button>
+        </div>
+    </div>
+    <script src="js/storage.js"></script>
+    <script src="js/messages.js"></script>
+    <script src="js/chest.js"></script>
+    <script src="js/background.js"></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('serviceWorker.js', {scope: './'})
+                    .then(registration => {
+                        console.log('Service Worker registered successfully:', registration);
+                    })
+                    .catch(error => {
+                        console.error('Service Worker registration failed:', error);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>

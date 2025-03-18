@@ -1,0 +1,150 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4e4e4 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+#app {
+    max-width: 500px;
+    width: 100%;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    text-align: center;
+    overflow: hidden;
+}
+
+h1 {
+    color: #ff4e50;
+    margin-bottom: 30px;
+    font-size: 1.8rem;
+}
+
+#chest-container {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#chest {
+    position: relative;
+    width: 120px;
+    height: 120px;
+}
+
+#chest object {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+}
+
+#message-display {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 12px 16px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 250px;
+    max-width: 250px;
+    min-height: 70px;
+    border: 2px solid #ff4e50;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    pointer-events: none;
+    overflow: hidden;
+    word-break: break-word;
+    hyphens: auto;
+    white-space: normal;
+}
+
+#chest-button {
+    background: linear-gradient(135deg, #ff4e50 0%, #f9d423 100%);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(255, 78, 80, 0.3);
+}
+
+#chest-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 7px 20px rgba(255, 78, 80, 0.4);
+}
+
+#chest-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 3px 10px rgba(255, 78, 80, 0.3);
+}
+
+#chest-button:disabled {
+    background: linear-gradient(135deg, #cccccc 0%, #aaaaaa 100%);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Remove any existing .message class styles that might interfere */
+.message {
+    width: 100%;
+    max-width: 250px;
+}
+
+.show {
+    opacity: 1;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Add styling for the sparkles */
+.sparkles {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 15;
+}
+
+/* Remove .sparkles-svg class and other sparkles transitions */
+
+.message-reveal {
+    animation: messageReveal 1s ease-out forwards;
+}

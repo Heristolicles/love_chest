@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 24 24">
+    <!-- Base with inner glow -->
+    <g id="base">
+        <path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z" fill="#8B4513" stroke="#3D2314"/>
+        <!-- Inner glow -->
+        <path d="M4 10h16v8a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-8z" fill="#FFD700" opacity="0.2">
+            <animate attributeName="opacity" values="0.2;0.4;0.2" dur="2s" repeatCount="indefinite"/>
+        </path>
+    </g>
+    
+    <!-- Animated Lid Group -->
+    <g id="lid">
+        <!-- Lid -->
+        <path d="M3 9l2.5-4h13L21 9" fill="#A0522D" stroke="#3D2314"/>
+        <!-- Lock -->
+        <rect x="10" y="10" width="4" height="2" fill="#FFD700" stroke="#B8860B"/>
+        
+        <!-- Animation for the lid -->
+        <animateTransform
+            id="chest-trigger"
+            attributeName="transform"
+            type="translate"
+            from="0 0"
+            to="0 -4"
+            dur="0.5s"
+            fill="freeze"
+            begin="indefinite"/>
+    </g>
+</svg>

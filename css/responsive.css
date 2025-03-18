@@ -1,0 +1,31 @@
+/* This file contains styles that ensure the application is responsive and looks good on various screen sizes. */
+
+@media (max-width: 768px) {
+    body {
+        font-size: 14px;
+    }
+
+    .chest {
+        width: 80%;
+        margin: 0 auto;
+    }
+
+    .message {
+        padding: 10px;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        font-size: 12px;
+    }
+
+    .chest {
+        width: 90%;
+    }
+
+    .message {
+        font-size: 14px;
+    }
+}

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 24 24">
+    <!-- Base -->
+    <path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z" fill="#8B4513" stroke="#3D2314"/>
+    <!-- Lid -->
+    <path d="M3 9l2.5-4h13L21 9" fill="#A0522D" stroke="#3D2314"/>
+    <!-- Lock -->
+    <rect x="10" y="10" width="4" height="2" fill="#FFD700" stroke="#B8860B"/>
+    <!-- Keyhole -->
+    <circle cx="12" cy="11" r="0.5" fill="#3D2314"/>
+</svg>

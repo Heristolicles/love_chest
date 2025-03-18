@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/animations.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/error.css">
     <title>Fabi's Liebesschatz</title>
 </head>
 <body>
@@ -36,24 +37,8 @@
             <button id="chest-button">Schatz öffnen</button>
         </div>
     </div>
-    <script src="js/storage.js"></script>
-    <script src="js/messages.js"></script>
-    <script src="js/chest.js"></script>
-    <script src="js/background.js"></script>
     
-    <!-- Service Worker Registration -->
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('serviceWorker.js', {scope: './'})
-                    .then(registration => {
-                        console.log('Service Worker registered successfully:', registration);
-                    })
-                    .catch(error => {
-                        console.error('Service Worker registration failed:', error);
-                    });
-            });
-        }
-    </script>
+    <!-- Main application scripts -->
+    <script type="module" src="js/app.js"></script>
 </body>
 </html>

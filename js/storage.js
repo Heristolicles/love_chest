@@ -1,58 +1,182 @@
-// This file handles the storage of the last opened date and the messages, possibly using local storage to track daily openings.
+import { handleError, safeStorage, StorageError } from './utils/errorHandling.js';
 
-const STORAGE_KEY = 'dailyLoveChest';
-const LAST_OPENED_KEY = 'lastOpened';
+/**
+ * @typedef {Object} StorageKeys
+ * @property {string} MESSAGES - Key for stored messages
+ * @property {string} LAST_OPENED - Key for last opened date
+ * @property {string} LAST_MESSAGE_INDEX - Key for last message index
+ * @property {string} LAST_MESSAGE - Key for last shown message
+ * @property {string} CHEST_STATE - Key for chest open/closed state
+ */
 
-function getMessages() {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-}
+/** @type {StorageKeys} */
+const StorageKeys = {
+    MESSAGES: 'dailyLoveChest',
+    LAST_OPENED: 'lastOpenedDate',
+    LAST_MESSAGE_INDEX: 'lastMessageIndex',
+    LAST_MESSAGE: 'currentMessage',
+    CHEST_STATE: 'chestOpen'
+};
 
-function saveMessages(messages) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(messages));
-}
-
-function getLastOpenedDate() {
-    return localStorage.getItem(LAST_OPENED_KEY);
-}
-
-function setLastOpenedDate(date) {
-    localStorage.setItem(LAST_OPENED_KEY, date);
-}
-
-// Check if the chest can be opened today
-function canOpenChest() {
-    const lastOpened = localStorage.getItem('lastOpenedDate');
-    
-    if (!lastOpened) {
-        return true;
+/**
+ * Validates a date string
+ * @param {string} date - Date string to validate
+ * @returns {boolean} - Whether the date is valid
+ */
+function isValidDate(date) {
+    if (!date) return false;
+    try {
+        return Boolean(new Date(date).getTime());
+    } catch {
+        return false;
     }
-    
-    const today = new Date().toDateString();
-    return today !== lastOpened;
 }
 
-// Save the date when the chest was last opened
-function setLastOpenedDate(date) {
-    localStorage.setItem('lastOpenedDate', date);
+/**
+ * Gets stored messages array
+ * @returns {string[]} Array of messages
+ */
+export function getMessages() {
+    try {
+        const messages = safeStorage.getItem(StorageKeys.MESSAGES);
+        if (!messages) return [];
+        
+        const parsed = JSON.parse(messages);
+        if (!Array.isArray(parsed)) {
+            throw new StorageError('Stored messages are not in valid format');
+        }
+        
+        return parsed;
+    } catch (error) {
+        handleError(error);
+        return [];
+    }
 }
 
-// Get the index of the last shown message
-function getLastMessageIndex() {
-    const index = localStorage.getItem('lastMessageIndex');
-    return index ? parseInt(index) : -1;
+/**
+ * Saves messages array to storage
+ * @param {string[]} messages - Array of messages to save
+ */
+export function saveMessages(messages) {
+    try {
+        if (!Array.isArray(messages)) {
+            throw new StorageError('Messages must be an array');
+        }
+        safeStorage.setItem(StorageKeys.MESSAGES, JSON.stringify(messages));
+    } catch (error) {
+        handleError(error);
+    }
 }
 
-// Save the index of the last shown message
-function setLastMessageIndex(index) {
-    localStorage.setItem('lastMessageIndex', index);
+/**
+ * Gets the date when the chest was last opened
+ * @returns {string|null} Last opened date or null if never opened
+ */
+export function getLastOpenedDate() {
+    try {
+        const date = safeStorage.getItem(StorageKeys.LAST_OPENED);
+        return isValidDate(date) ? date : null;
+    } catch (error) {
+        handleError(error);
+        return null;
+    }
 }
 
-// Get the last message that was shown
-function getLastMessage() {
-    return localStorage.getItem('lastShownMessage') || "";
+/**
+ * Sets the date when the chest was last opened
+ * @param {string} date - Date string to save
+ */
+export function setLastOpenedDate(date) {
+    try {
+        if (!isValidDate(date)) {
+            throw new StorageError('Invalid date format');
+        }
+        safeStorage.setItem(StorageKeys.LAST_OPENED, date);
+    } catch (error) {
+        handleError(error);
+    }
 }
 
-// Save the last message that was shown
-function setLastMessage(message) {
-    localStorage.setItem('lastShownMessage', message);
+/**
+ * Checks if the chest can be opened today
+ * @returns {boolean} Whether the chest can be opened
+ */
+export function canOpenChest() {
+    try {
+        const lastOpened = getLastOpenedDate();
+        if (!lastOpened) return true;
+        
+        const today = new Date().toDateString();
+        return today !== lastOpened;
+    } catch (error) {
+        handleError(error);
+        return true; // Allow opening on error to prevent lockout
+    }
+}
+
+/**
+ * Gets the chest's open/closed state
+ * @returns {boolean} Whether the chest is open
+ */
+export function getChestState() {
+    try {
+        return safeStorage.getItem(StorageKeys.CHEST_STATE) === 'true';
+    } catch (error) {
+        handleError(error);
+        return false;
+    }
+}
+
+/**
+ * Sets the chest's open/closed state
+ * @param {boolean} isOpen - Whether the chest is open
+ */
+export function setChestState(isOpen) {
+    try {
+        safeStorage.setItem(StorageKeys.CHEST_STATE, isOpen.toString());
+    } catch (error) {
+        handleError(error);
+    }
+}
+
+/**
+ * Gets the last shown message
+ * @returns {string} Last shown message or empty string if none
+ */
+export function getLastMessage() {
+    try {
+        return safeStorage.getItem(StorageKeys.LAST_MESSAGE) || '';
+    } catch (error) {
+        handleError(error);
+        return '';
+    }
+}
+
+/**
+ * Saves the last shown message
+ * @param {string} message - Message to save
+ */
+export function setLastMessage(message) {
+    try {
+        if (typeof message !== 'string') {
+            throw new StorageError('Message must be a string');
+        }
+        safeStorage.setItem(StorageKeys.LAST_MESSAGE, message);
+    } catch (error) {
+        handleError(error);
+    }
+}
+
+/**
+ * Clears all stored data
+ * Useful for testing or resetting the application
+ */
+export function clearStorage() {
+    try {
+        Object.values(StorageKeys).forEach(key => {
+            safeStorage.removeItem(key);
+        });
+    } catch (error) {
+        handleError(error);
+    }
 }
